@@ -22,9 +22,9 @@ SHEET_SPECS = {
         'length_m': 50,
         'thickness_mm': 0.1,
         'nominal_coverage': 90,
-        'overlap_factor': 0.8,  # 20% overlap
+        'overlap_factor': 0.8,  # 20%重複
         'actual_coverage': 72,
-        'description': 'For ceiling (1 layer)'
+        'description': '天井用 (1層)'
     },
     'ceiling_wide': {
         'name': '養生シート 0.1mm × 3600mm × 50m',
@@ -32,9 +32,9 @@ SHEET_SPECS = {
         'length_m': 50,
         'thickness_mm': 0.1,
         'nominal_coverage': 180,
-        'overlap_factor': 0.8,  # 20% overlap
+        'overlap_factor': 0.8,  # 20%重複
         'actual_coverage': 144,
-        'description': 'For ceiling (1 layer)'
+        'description': '天井用 (1層)'
     },
     'wall_thin': {
         'name': '養生シート 0.1mm × 1800mm × 50m',
@@ -42,9 +42,9 @@ SHEET_SPECS = {
         'length_m': 50,
         'thickness_mm': 0.1,
         'nominal_coverage': 90,
-        'overlap_factor': 0.8,  # 20% overlap
+        'overlap_factor': 0.8,  # 20%重複
         'actual_coverage': 72,
-        'description': 'For wall (1 layer)'
+        'description': '壁面用 (1層)'
     },
     'wall_wide': {
         'name': '養生シート 0.1mm × 3600mm × 50m',
@@ -52,9 +52,9 @@ SHEET_SPECS = {
         'length_m': 50,
         'thickness_mm': 0.1,
         'nominal_coverage': 180,
-        'overlap_factor': 0.8,  # 20% overlap
+        'overlap_factor': 0.8,  # 20%重複
         'actual_coverage': 144,
-        'description': 'For wall (1 layer)'
+        'description': '壁面用 (1層)'
     },
     'floor_thin': {
         'name': '養生シート 0.15mm × 1800mm × 50m',
@@ -63,8 +63,8 @@ SHEET_SPECS = {
         'thickness_mm': 0.15,
         'nominal_coverage': 90,
         'layers_required': 2,
-        'actual_coverage': 36,  # Half because 2 layers needed
-        'description': 'For floor (2 layers required)'
+        'actual_coverage': 36,  # 2層必要のため半分
+        'description': '床面用 (2層必要)'
     },
     'floor_wide': {
         'name': '養生シート 0.15mm × 3600mm × 50m',
@@ -73,8 +73,8 @@ SHEET_SPECS = {
         'thickness_mm': 0.15,
         'nominal_coverage': 180,
         'layers_required': 2,
-        'actual_coverage': 72,  # Half because 2 layers needed
-        'description': 'For floor (2 layers required)'
+        'actual_coverage': 72,  # 2層必要のため半分
+        'description': '床面用 (2層必要)'
     }
 }
 
@@ -893,7 +893,7 @@ with tab_room:
     
     st.markdown("部屋を追加して設定してください:")
     
-    # Add/Remove room buttons
+    # 部屋追加・削除ボタン
     col_btn1, col_btn2 = st.columns(2)
     with col_btn1:
         if st.button("➕ 部屋を追加"):
@@ -1028,7 +1028,7 @@ with tab_room:
 # ==============================================================================
 
 with tab_building:
-    st.header("🏗️ 外壁足場養生 Calculator")
+    st.header("🏗️ 外壁足場養生計算機")
     
     # Initialize session state for building and scaffolding
     if 'building_config' not in st.session_state:
@@ -1062,12 +1062,12 @@ with tab_building:
             key="building_height"
         )
     
-    st.markdown("**🏗️ 足場 (Scaffolding Unit) Dimensions (m):**")
+    st.markdown("**🏗️ 足場寸法 (m):**")
     
     col_scaff1, col_scaff2, col_scaff3 = st.columns(3)
     with col_scaff1:
         st.session_state.building_config['scaffolding_length_m'] = st.number_input(
-            "足場 Length (m)", 
+            "足場長さ (m)", 
             min_value=0.001, 
             value=st.session_state.building_config['scaffolding_length_m'], 
             step=0.001,
@@ -1076,7 +1076,7 @@ with tab_building:
         )
     with col_scaff2:
         st.session_state.building_config['scaffolding_width_m'] = st.number_input(
-            "足場 Width (m)", 
+            "足場幅 (m)", 
             min_value=0.001, 
             value=st.session_state.building_config['scaffolding_width_m'], 
             step=0.001,
@@ -1085,7 +1085,7 @@ with tab_building:
         )
     with col_scaff3:
         st.session_state.building_config['scaffolding_height_m'] = st.number_input(
-            "足場 Height (m)", 
+            "足場高さ (m)", 
             min_value=0.001, 
             value=st.session_state.building_config['scaffolding_height_m'], 
             step=0.001,
@@ -1150,7 +1150,8 @@ with tab_building:
             st.markdown("**📏 総カバー範囲:**")
             st.write(f"長さ × 高さ: {units_along_length} × {units_along_height}")
             st.metric("**総足場ユニット**", f"{total_side_units}")
-            st.metric("**ユニットカバー面積**", f"{unit_coverage_area:.3f} m²/ユニット")
+            st.metric("**ユニット面積**", f"{unit_coverage_area:.3f} m²")
+            st.caption("per ユニット")
             st.write(f"**側壁寸法:** {total_scaffolding_length:.3f}m × {total_scaffolding_height:.3f}m")
             st.write(f"**側壁ストリップ数:** {horizontal_strips_needed} 水平ストリップが必要")
             st.write(f"**ストリップ当たりロール数:** {rolls_per_strip} ロール (各50m長)")
@@ -1189,56 +1190,56 @@ with tab_building:
             st.caption(f"全て1800mmロール: {total_all_rolls} 合計")
         
         # Display total coverage area separately with better formatting
-        st.markdown("### 📏 **Total Coverage Area**")
-        st.success(f"🎯 **{total_coverage_area:,.2f} m²** (Top: {total_top_area:.1f} + Bottom: {total_bottom_area:.1f} + Side Wall: {side_wall_area:.1f})")
+        st.markdown("### 📏 **総カバー面積**")
+        st.success(f"🎯 **{total_coverage_area:,.2f} m²** (上面: {total_top_area:.1f} + 下面: {total_bottom_area:.1f} + 側壁: {side_wall_area:.1f})")
         
         # Coverage options with safety margin
-        st.subheader("🛡️ Material Summary")
+        st.subheader("🛡️ 材料概要")
         
-        st.markdown("**📦 Roll Requirements:**")
-        st.success(f"🏢 **Top covering (floor):** {total_top_rolls} rolls of 0.15mm × 1800mm × 50m")
-        st.success(f"🏠 **Bottom covering (ceiling):** {total_bottom_rolls} rolls of 0.1mm × 1800mm × 50m")
-        st.success(f"🧱 **Side wall covering:** {total_side_wall_rolls} rolls of 0.1mm × 1800mm × 50m")
+        st.markdown("**📦 ロール必要数:**")
+        st.success(f"🏢 **上面カバー（床）:** {total_top_rolls} ロール 0.15mm × 1800mm × 50m")
+        st.success(f"🏠 **下面カバー（天井）:** {total_bottom_rolls} ロール 0.1mm × 1800mm × 50m")
+        st.success(f"🧱 **側壁カバー:** {total_side_wall_rolls} ロール 0.1mm × 1800mm × 50m")
         
-        st.info(f"**📊 Total Material:** {total_all_rolls} rolls (all 1800mm × 50m)")
+        st.info(f"**📊 総材料:** {total_all_rolls} ロール（すべて1800mm × 50m）")
         
         # Detailed breakdown table
-        st.subheader("📋 Calculation Breakdown")
+        st.subheader("📋 計算詳細")
         
         # Create data for display
         calculation_data = {
-            'Building Length (m)': f"{config['building_length_m']:.3f}",
-            'Building Height (m)': f"{config['building_height_m']:.3f}",
-            '足場 Length (m)': f"{config['scaffolding_length_m']:.3f}",
-            '足場 Width (m)': f"{config['scaffolding_width_m']:.3f}",
-            '足場 Height (m)': f"{config['scaffolding_height_m']:.3f}",
-            'Units Along Length': units_along_length,
-            'Units Along Height': units_along_height,
-            'Total Side Units': total_side_units,
-            'Total Scaffolding Length (m)': f"{total_scaffolding_length:.3f}",
-            'Total Scaffolding Height (m)': f"{total_scaffolding_height:.3f}",
-            'Top Coverage Area (m²)': f"{total_top_area:.2f}",
-            'Bottom Coverage Area (m²)': f"{total_bottom_area:.2f}",
-            'Side Wall Area (m²)': f"{side_wall_area:.2f}",
-            'Total Coverage Area (m²)': f"{total_coverage_area:.2f}"
+            '建物長さ (m)': f"{config['building_length_m']:.3f}",
+            '建物高さ (m)': f"{config['building_height_m']:.3f}",
+            '足場長さ (m)': f"{config['scaffolding_length_m']:.3f}",
+            '足場幅 (m)': f"{config['scaffolding_width_m']:.3f}",
+            '足場高さ (m)': f"{config['scaffolding_height_m']:.3f}",
+            '長さ方向ユニット数': units_along_length,
+            '高さ方向ユニット数': units_along_height,
+            '側面総ユニット数': total_side_units,
+            '足場総長さ (m)': f"{total_scaffolding_length:.3f}",
+            '足場総高さ (m)': f"{total_scaffolding_height:.3f}",
+            '上面カバー面積 (m²)': f"{total_top_area:.2f}",
+            '下面カバー面積 (m²)': f"{total_bottom_area:.2f}",
+            '側壁面積 (m²)': f"{side_wall_area:.2f}",
+            '総カバー面積 (m²)': f"{total_coverage_area:.2f}"
         }
         
         # Display as two-column layout
         col_table1, col_table2 = st.columns(2)
         
         with col_table1:
-            st.markdown("**🏢 Building & 足場 Dimensions:**")
+            st.markdown("**🏢 建物・足場寸法:**")
             for key, value in list(calculation_data.items())[:9]:
                 st.write(f"• **{key}:** {value}")
         
         with col_table2:
-            st.markdown("**📊 Coverage Calculations:**")
+            st.markdown("**📊 カバー面積計算:**")
             for key, value in list(calculation_data.items())[9:]:
                 st.write(f"• **{key}:** {value}")
         
         # Store data for integration with 養生シート calculator  
         scaffolding_data = [{
-            'name': 'Building 足場 Coverage',
+            'name': '建物足場カバー',
             'length': config['scaffolding_length_m'],  # Already in meters
             'width': config['scaffolding_width_m'],
             'height': config['scaffolding_height_m'],
@@ -1254,7 +1255,7 @@ with tab_building:
             'total_side_wall_rolls': total_side_wall_rolls,
             'horizontal_strips_needed': horizontal_strips_needed,
             'rolls_per_strip': rolls_per_strip,
-            'roll_type': '1800mm only - horizontal covering'
+            'roll_type': '1800mmのみ - 水平カバー'
         }]
         
         # Store in session state for 養生シート tab integration
@@ -1403,11 +1404,11 @@ with tab_sheets:
                 st.caption("全厚さ・サイズ")
             
             # Additional summary breakdown
-            st.markdown("### 📊 **Roll Summary by Application**")
+            st.markdown("### 📊 **用途別ロール概要**")
             col_app = st.columns(3)
             with col_app[0]:
                 ceiling_wall_total = ceiling_wall_1800_01mm + ceiling_wall_3600_01mm
-                st.info(f"🏠 **Ceiling & Wall:** {ceiling_wall_total} rolls (0.1mm)")
+                st.info(f"🏠 **天井・壁:** {ceiling_wall_total} ロール (0.1mm)")
                 if ceiling_wall_1800_01mm > 0:
                     st.write(f"• {ceiling_wall_1800_01mm} × 1800mm × 0.1mm")
                 if ceiling_wall_3600_01mm > 0:
@@ -1416,87 +1417,87 @@ with tab_sheets:
             with col_app[1]:
                 if include_floor_calc:
                     floor_total = floor_1800_015mm + floor_3600_015mm
-                    st.info(f"🏢 **Floor:** {floor_total} rolls (0.15mm)")
+                    st.info(f"🏢 **床:** {floor_total} ロール (0.15mm)")
                     if floor_1800_015mm > 0:
                         st.write(f"• {floor_1800_015mm} × 1800mm × 0.15mm")
                     if floor_3600_015mm > 0:
                         st.write(f"• {floor_3600_015mm} × 3600mm × 0.15mm")
                 else:
-                    st.info("🏢 **Floor:** Not included")
+                    st.info("🏢 **床:** 含まれていません")
             
             with col_app[2]:
-                st.success(f"📦 **Grand Total:** {total_rolls} rolls")
-                st.write(f"• **1800mm:** {grand_total_1800} rolls")
-                st.write(f"• **3600mm:** {grand_total_3600} rolls")
+                st.success(f"📦 **総合計:** {total_rolls} ロール")
+                st.write(f"• **1800mm:** {grand_total_1800} ロール")
+                st.write(f"• **3600mm:** {grand_total_3600} ロール")
             
             # Detailed breakdown
             if ceiling_wall_results and 'room_results' in ceiling_wall_results:
-                st.subheader("🏠 Ceiling & Wall Breakdown")
+                st.subheader("🏠 天井・壁内訳")
                 
                 for room_result in ceiling_wall_results['room_results']:
-                    with st.expander(f"📋 {room_result['name']} Details"):
+                    with st.expander(f"📋 {room_result['name']} 詳細"):
                         col_detail = st.columns(2)
                         with col_detail[0]:
-                            st.write("**Ceiling Coverage:**")
+                            st.write("**天井カバー:**")
                             if room_result.get('ceiling_1800_from_leftover', 0) > 0:
-                                st.write(f"• From leftover: {room_result['ceiling_1800_from_leftover']:.1f} m² (1800mm)")
+                                st.write(f"• 余りから: {room_result['ceiling_1800_from_leftover']:.1f} m² (1800mm)")
                             if room_result.get('ceiling_3600_from_leftover', 0) > 0:
-                                st.write(f"• From leftover: {room_result['ceiling_3600_from_leftover']:.1f} m² (3600mm)")
+                                st.write(f"• 余りから: {room_result['ceiling_3600_from_leftover']:.1f} m² (3600mm)")
                             if room_result.get('new_ceiling_1800_rolls', 0) > 0:
-                                st.write(f"• New rolls: {room_result['new_ceiling_1800_rolls']} × 1800mm")
+                                st.write(f"• 新規ロール: {room_result['new_ceiling_1800_rolls']} × 1800mm")
                             if room_result.get('new_ceiling_3600_rolls', 0) > 0:
-                                st.write(f"• New rolls: {room_result['new_ceiling_3600_rolls']} × 3600mm")
+                                st.write(f"• 新規ロール: {room_result['new_ceiling_3600_rolls']} × 3600mm")
                         
                         with col_detail[1]:
-                            st.write("**Wall Coverage:**")
+                            st.write("**壁カバー:**")
                             if room_result.get('wall_1800_from_leftover', 0) > 0:
-                                st.write(f"• From leftover: {room_result['wall_1800_from_leftover']:.1f} m² (1800mm)")
+                                st.write(f"• 余りから: {room_result['wall_1800_from_leftover']:.1f} m² (1800mm)")
                             if room_result.get('wall_3600_from_leftover', 0) > 0:
-                                st.write(f"• From leftover: {room_result['wall_3600_from_leftover']:.1f} m² (3600mm)")
+                                st.write(f"• 余りから: {room_result['wall_3600_from_leftover']:.1f} m² (3600mm)")
                             if room_result.get('additional_wall_1800_rolls', 0) > 0:
-                                st.write(f"• Additional rolls: {room_result['additional_wall_1800_rolls']} × 1800mm")
+                                st.write(f"• 追加ロール: {room_result['additional_wall_1800_rolls']} × 1800mm")
                             if room_result.get('additional_wall_3600_rolls', 0) > 0:
-                                st.write(f"• Additional rolls: {room_result['additional_wall_3600_rolls']} × 3600mm")
+                                st.write(f"• 追加ロール: {room_result['additional_wall_3600_rolls']} × 3600mm")
             
             if include_floor_calc and floor_results and 'floor_room_results' in floor_results:
-                st.subheader("🏠 Floor Coverage Breakdown")
+                st.subheader("🏢 床カバー内訳")
                 
                 for room_result in floor_results['floor_room_results']:
-                    with st.expander(f"📋 {room_result['name']} Floor Details"):
+                    with st.expander(f"📋 {room_result['name']} 床詳細"):
                         col_floor = st.columns(2)
                         with col_floor[0]:
-                            st.write("**Floor Coverage (2 layers):**")
+                            st.write("**床カバー (2層):**")
                             if room_result.get('floor_1800_from_leftover', 0) > 0:
-                                st.write(f"• From leftover: {room_result['floor_1800_from_leftover']:.1f} m² (1800mm)")
+                                st.write(f"• 余りから: {room_result['floor_1800_from_leftover']:.1f} m² (1800mm)")
                             if room_result.get('floor_3600_from_leftover', 0) > 0:
-                                st.write(f"• From leftover: {room_result['floor_3600_from_leftover']:.1f} m² (3600mm)")
+                                st.write(f"• 余りから: {room_result['floor_3600_from_leftover']:.1f} m² (3600mm)")
                         
                         with col_floor[1]:
-                            st.write("**New Rolls Required:**")
+                            st.write("**必要新規ロール:**")
                             if room_result.get('new_floor_1800_rolls', 0) > 0:
-                                st.write(f"• New rolls: {room_result['new_floor_1800_rolls']} × 1800mm")
+                                st.write(f"• 新規ロール: {room_result['new_floor_1800_rolls']} × 1800mm")
                             if room_result.get('new_floor_3600_rolls', 0) > 0:
-                                st.write(f"• New rolls: {room_result['new_floor_3600_rolls']} × 3600mm")
+                                st.write(f"• 新規ロール: {room_result['new_floor_3600_rolls']} × 3600mm")
             
             # Leftover material summary
-            st.subheader("♻️ Remaining Material")
+            st.subheader("♻️ 残余材料")
             
             col_leftover = st.columns(2)
             with col_leftover[0]:
                 if ceiling_wall_results:
                     leftover_1800 = ceiling_wall_results.get('final_leftover_1800', 0)
                     leftover_3600 = ceiling_wall_results.get('final_leftover_3600', 0)
-                    st.write(f"**Ceiling/Wall Leftover:**")
-                    st.write(f"• 1800mm coverage: {leftover_1800:.1f} m²")
-                    st.write(f"• 3600mm coverage: {leftover_3600:.1f} m²")
+                    st.write(f"**天井・壁余り:**")
+                    st.write(f"• 1800mmカバー: {leftover_1800:.1f} m²")
+                    st.write(f"• 3600mmカバー: {leftover_3600:.1f} m²")
             
             with col_leftover[1]:
                 if include_floor_calc and floor_results:
                     leftover_floor_1800 = floor_results.get('final_leftover_1800_floor', 0)
                     leftover_floor_3600 = floor_results.get('final_leftover_3600_floor', 0)
-                    st.write(f"**Floor Leftover:**")
-                    st.write(f"• 1800mm coverage: {leftover_floor_1800:.1f} m²")
-                    st.write(f"• 3600mm coverage: {leftover_floor_3600:.1f} m²")
+                    st.write(f"**床余り:**")
+                    st.write(f"• 1800mmカバー: {leftover_floor_1800:.1f} m²")
+                    st.write(f"• 3600mmカバー: {leftover_floor_3600:.1f} m²")
         
     else:
         st.info("📥 スマート最適化を開始するには、**多室または外壁足場養生タブから部屋データを取り込み**してください。")
